@@ -9,7 +9,7 @@
     <div v-else-if="organization" class="content">
       <header class="header">
         <div>
-          <h2>{{ organization.legal_name || organization.trade_name || 'Organização' }}</h2>
+          <h2>{{ organization.trade_name || 'Organização' }}</h2>
           <p class="muted">CNPJ: {{ organization.cnpj || '---' }}</p>
         </div>
         <span :class="['pill', accessClass]">{{ accessLabel }}</span>
