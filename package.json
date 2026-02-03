@@ -1,0 +1,19 @@
+{
+  "name": "mapay-admin",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "nuxt dev",
+    "build": "nuxt build",
+    "preview": "nuxt preview",
+    "lint": "eslint ."
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.49.1",
+    "nuxt": "^3.12.4"
+  },
+  "devDependencies": {
+    "@nuxt/eslint-config": "^0.5.5",
+    "eslint": "^9.9.0"
+  }
+}
