@@ -55,8 +55,8 @@
         <tbody>
           <tr v-for="org in organizations" :key="org.id">
             <td>
-              <strong>{{ org.trade_name || 'Sem nome' }}</strong>
-              <div class="muted">{{ org.trade_name }}</div>
+              <strong>{{ org.nome_fantasia || org.razao_social || 'Sem nome' }}</strong>
+              <div class="muted">{{ org.razao_social }}</div>
             </td>
             <td>{{ org.cnpj || '---' }}</td>
             <td>{{ formatDate(org.trial_ends_at) }}</td>

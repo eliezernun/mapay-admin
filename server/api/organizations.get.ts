@@ -9,13 +9,15 @@ export default defineEventHandler(async (event) => {
   const supabase = createSupabaseServerClient();
   let builder = supabase
     .from('organizations')
-    .select('id, cnpj, trade_name, trial_ends_at, access_granted_until', { count: 'exact' })
+    .select('id, cnpj, nome_fantasia, razao_social, trial_ends_at, access_granted_until', {
+      count: 'exact'
+    })
     .order('created_at', { ascending: false })
     .limit(50);
 
   if (search) {
     builder = builder.or(
-      `cnpj.ilike.%${search}%,trade_name.ilike.%${search}%`
+      `cnpj.ilike.%${search}%,nome_fantasia.ilike.%${search}%,razao_social.ilike.%${search}%`
     );
   }
 
