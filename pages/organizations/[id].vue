@@ -32,7 +32,9 @@
             <input id="admin-id" v-model="adminId" type="text" placeholder="UUID do admin" required />
             <label for="days">Dias de liberação</label>
             <input id="days" v-model.number="grantDays" type="number" min="1" required />
-            <button class="button" type="submit" :disabled="actionPending">Confirmar liberação</button>
+            <button class="button" type="submit" :disabled="actionPending || !adminId">
+              Confirmar liberação
+            </button>
           </form>
           <p v-if="actionMessage" class="status status--success">{{ actionMessage }}</p>
           <p v-if="actionError" class="status status--error">{{ actionError }}</p>
@@ -40,7 +42,7 @@
         <div class="card">
           <h3>Inativar acesso</h3>
           <p>Remove a liberação atual e bloqueia o acesso imediatamente.</p>
-          <button class="button button--danger" :disabled="actionPending" @click="revokeAccess">
+          <button class="button button--danger" :disabled="actionPending || !adminId" @click="revokeAccess">
             Inativar acesso agora
           </button>
         </div>
@@ -85,6 +87,9 @@ const grantAccess = async () => {
   actionPending.value = true;
 
   try {
+    if (!adminId.value) {
+      throw new Error('Informe o UUID do admin.');
+    }
     const response = await $fetch(`/api/organizations/${id}/grant`, {
       method: 'POST',
       body: { days: grantDays.value },
@@ -93,7 +98,7 @@ const grantAccess = async () => {
     actionMessage.value = response.message;
     await refresh();
   } catch (err: any) {
-    actionError.value = err?.data?.message || 'Falha ao liberar acesso.';
+    actionError.value = err?.data?.message || err?.message || 'Falha ao liberar acesso.';
   } finally {
     actionPending.value = false;
   }
@@ -105,6 +110,9 @@ const revokeAccess = async () => {
   actionPending.value = true;
 
   try {
+    if (!adminId.value) {
+      throw new Error('Informe o UUID do admin.');
+    }
     const response = await $fetch(`/api/organizations/${id}/revoke`, {
       method: 'POST',
       headers: { 'x-admin-id': adminId.value }
@@ -112,7 +120,7 @@ const revokeAccess = async () => {
     actionMessage.value = response.message;
     await refresh();
   } catch (err: any) {
-    actionError.value = err?.data?.message || 'Falha ao inativar acesso.';
+    actionError.value = err?.data?.message || err?.message || 'Falha ao inativar acesso.';
   } finally {
     actionPending.value = false;
   }
