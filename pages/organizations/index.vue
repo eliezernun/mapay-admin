@@ -55,7 +55,7 @@
         <tbody>
           <tr v-for="org in organizations" :key="org.id">
             <td>
-              <strong>{{ org.legal_name || org.trade_name || 'Sem nome' }}</strong>
+              <strong>{{ org.trade_name || 'Sem nome' }}</strong>
               <div class="muted">{{ org.trade_name }}</div>
             </td>
             <td>{{ org.cnpj || '---' }}</td>
